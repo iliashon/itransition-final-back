@@ -54,6 +54,33 @@ class TokenService {
             },
         });
     }
+
+    validateAccessToken(token: string) {
+        try {
+            return jwt.verify(token, process.env.JWT_ACCESS_SECRET!);
+        } catch (err) {
+            return null;
+        }
+    }
+
+    validateRefreshToken(token: string) {
+        try {
+            return jwt.verify(
+                token,
+                process.env.JWT_REFRESH_SECRET!,
+            ) as TUserData;
+        } catch (err) {
+            return null;
+        }
+    }
+
+    async findToken(refreshToken: string) {
+        return db.token.findFirst({
+            where: {
+                refresh_token: refreshToken,
+            },
+        });
+    }
 }
 
 export default new TokenService();

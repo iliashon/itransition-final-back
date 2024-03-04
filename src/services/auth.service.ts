@@ -83,7 +83,37 @@ class AuthService {
         };
     }
 
-    refresh() {}
+    async refresh(refreshToken: string): Promise<TUserAuthData> {
+        if (!refreshToken) {
+            throw ApiError.UnauthorizedError();
+        }
+
+        const userData = TokenService.validateRefreshToken(refreshToken);
+        const hasTokenInDb = await TokenService.findToken(refreshToken);
+
+        if (!userData || !hasTokenInDb) {
+            throw ApiError.UnauthorizedError();
+        }
+
+        const user = await db.user.findFirst({
+            where: {
+                id: userData.id,
+            },
+        });
+
+        if (!user) {
+            throw ApiError.BadRequest(
+                "The user was not found, most likely the admin deleted it",
+            );
+        }
+
+        const tokens = await TokenService.generateToken(user);
+
+        return {
+            ...tokens,
+            user: user,
+        };
+    }
 }
 
 export default new AuthService();

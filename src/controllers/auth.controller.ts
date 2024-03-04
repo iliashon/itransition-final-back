@@ -48,8 +48,18 @@ class AuthController {
         }
     }
 
-    refresh(req: Request, res: Response, next: NextFunction) {
-        res.send("refresh");
+    async refresh(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { refreshToken } = req.cookies;
+            const user: TUserAuthData = await AuthService.refresh(refreshToken);
+            res.cookie("refreshToken", user.refreshToken, {
+                maxAge: MAX_AGE_COOKIE,
+                httpOnly: true,
+            });
+            res.json(user);
+        } catch (err) {
+            next(err);
+        }
     }
 }
 
