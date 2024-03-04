@@ -2,6 +2,7 @@ import express, { Express, Request, Response } from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import dotenv from "dotenv";
+import routes from "./routes/index";
 
 dotenv.config();
 
@@ -18,8 +19,11 @@ app.use(
     }),
 );
 
-app.get("/", (req: Request, res: Response) => {
-    res.send("Hello this is api server");
+app.use(routes);
+
+app.post("/", (req, res: Response, next) => {
+    console.log(req.body);
+    res.send(req.body);
 });
 
 app.listen(PORT, () => {

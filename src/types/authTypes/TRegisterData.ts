@@ -1,0 +1,8 @@
+type TRegisterData = {
+    email: string;
+    password: string;
+    first_name: string;
+    last_name: string;
+};
+
+export default TRegisterData;
