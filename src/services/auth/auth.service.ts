@@ -49,7 +49,7 @@ class AuthService {
         };
     }
 
-    async logout(refreshToken: string) {
+    logout(refreshToken: string) {
         return TokenService.removeToken(refreshToken);
     }
 
