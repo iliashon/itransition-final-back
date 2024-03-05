@@ -1,8 +1,8 @@
-import AuthService from "../services/auth.service";
-import TRegisterData from "../types/authTypes/TRegisterData";
+import AuthService from "../../services/auth/auth.service";
+import TRegisterData from "../../types/authTypes/TRegisterData";
 import { Request, Response, NextFunction } from "express";
-import TLoginData from "../types/authTypes/TLoginData";
-import TUserAuthData from "../types/authTypes/TUserAuthData";
+import TLoginData from "../../types/authTypes/TLoginData";
+import TUserAuthData from "../../types/authTypes/TUserAuthData";
 
 const MAX_AGE_COOKIE = 30 * 24 * 60 * 60 * 1000;
 

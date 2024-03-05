@@ -1,11 +1,11 @@
 import { PrismaClient } from "@prisma/client";
-import type TLoginData from "../types/authTypes/TLoginData";
-import TRegisterData from "../types/authTypes/TRegisterData";
-import ApiError from "../exceptions/ApiError";
+import type TLoginData from "../../types/authTypes/TLoginData";
+import TRegisterData from "../../types/authTypes/TRegisterData";
+import ApiError from "../../exceptions/ApiError";
 import bcrypt from "bcrypt";
-import TUserData from "../types/authTypes/TUserData";
+import TUserData from "../../types/authTypes/TUserData";
 import TokenService from "./token.service";
-import TUserAuthData from "../types/authTypes/TUserAuthData";
+import TUserAuthData from "../../types/authTypes/TUserAuthData";
 
 const db = new PrismaClient();
 

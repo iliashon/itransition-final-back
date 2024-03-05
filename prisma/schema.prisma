@@ -28,6 +28,13 @@ model token {
   refresh_token String
 }
 
+model language {
+  id         Int     @id @unique @default(autoincrement())
+  lang_code  String  @db.VarChar(32)
+  name       String  @db.VarChar(256)
+  is_default Boolean @default(false)
+}
+
 model collection {
   id          Int    @id @unique @default(autoincrement())
   user        user   @relation(fields: [user_id], references: [id], onDelete: Cascade)
