@@ -8,16 +8,17 @@ datasource db {
 }
 
 model user {
-  id         Int      @id @unique @default(autoincrement())
-  email      String   @db.VarChar(256)
-  password   String   @db.VarChar(64)
-  first_name String   @db.VarChar(256)
-  last_name  String   @db.VarChar(256)
-  is_admin   Boolean  @default(false)
-  blocked    Boolean  @default(false)
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  id         Int          @id @unique @default(autoincrement())
+  email      String       @db.VarChar(256)
+  password   String       @db.VarChar(64)
+  first_name String       @db.VarChar(256)
+  last_name  String       @db.VarChar(256)
+  is_admin   Boolean      @default(false)
+  blocked    Boolean      @default(false)
+  created_at DateTime     @default(now())
+  updated_at DateTime     @updatedAt
   token      token?
+  collection collection[]
 }
 
 model token {
@@ -25,4 +26,27 @@ model token {
   user          user   @relation(fields: [user_id], references: [id], onDelete: Cascade)
   user_id       Int    @unique
   refresh_token String
+}
+
+model collection {
+  id          Int    @id @unique @default(autoincrement())
+  user        user   @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  entity_id   Int
+  lang_code   String @db.VarChar(32)
+  user_id     Int
+  name        String @db.VarChar(256)
+  description String @db.Text
+  type        String @db.VarChar(64)
+  image_url   String @db.Text
+  item        item[]
+}
+
+model item {
+  id            Int        @id @unique @default(autoincrement())
+  collection    collection @relation(fields: [collection_id], references: [id], onDelete: Cascade)
+  entity_id     Int
+  lang_code     String     @db.VarChar(32)
+  collection_id Int
+  name          String     @db.VarChar(256)
+  image_url     String     @db.Text
 }
