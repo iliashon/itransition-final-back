@@ -1,3 +1,5 @@
+import i18next from "i18next";
+
 export default class ApiError extends Error {
     status;
     constructor(status: number, message: string) {
@@ -6,7 +8,7 @@ export default class ApiError extends Error {
     }
 
     static UnauthorizedError() {
-        return new ApiError(401, "User is not authorized");
+        return new ApiError(401, i18next.t("auth.notAuth"));
     }
 
     static BadRequest(message: string) {

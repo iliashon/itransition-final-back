@@ -1,4 +1,4 @@
-import express, { Express, Request, Response } from "express";
+import express, { Express, NextFunction, Request, Response } from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -6,22 +6,20 @@ import routes from "./routes/index";
 import LogErrorMiddleware from "./middlewares/LogErrorMiddleware";
 import i18next from "i18next";
 import Backend from "i18next-fs-backend";
-import i18nextMiddleware from "i18next-http-middleware";
+import LanguageDetectorMiddleware from "./middlewares/LanguageDetectorMiddleware";
+import { throws } from "assert";
 
 dotenv.config();
 
 const PORT = process.env.PORT || 4000;
 
-i18next
-    .use(Backend)
-    .use(i18nextMiddleware.LanguageDetector)
-    .init({
-        backend: {
-            loadPath: __dirname + "/resources/locales/{{lng}}/{{ns}}.json",
-        },
-        fallbackLng: "en",
-        preload: ["en", "ru"],
-    });
+i18next.use(Backend).init({
+    backend: {
+        loadPath: __dirname + "/resources/locales/{{lng}}/{{ns}}.json",
+    },
+    fallbackLng: "en",
+    preload: ["en", "ru"],
+});
 
 const app: Express = express();
 
@@ -33,7 +31,7 @@ app.use(
         origin: process.env.CLIENT_URL,
     }),
 );
-app.use(i18nextMiddleware.handle(i18next));
+app.use(LanguageDetectorMiddleware);
 
 app.use(routes);
 app.use(LogErrorMiddleware);

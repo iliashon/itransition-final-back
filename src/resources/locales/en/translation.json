@@ -1,3 +1,5 @@
 {
-  "test": "Test locale"
+  "auth": {
+    "notAuth": "User is not authorized"
+  }
 }
