@@ -1,12 +1,13 @@
 import express from "express";
 import CollectionController from "../../controllers/collection/collection.controller";
+import AuthMiddleware from "../../middlewares/AuthMiddleware";
 
 const router = express.Router();
 
 router
     .route("/")
     .get(CollectionController.getAll)
-    .post(CollectionController.create);
+    .post(AuthMiddleware, CollectionController.create);
 
 router
     .route("/:id")

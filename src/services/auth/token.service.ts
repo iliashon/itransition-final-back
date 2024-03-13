@@ -57,7 +57,10 @@ class TokenService {
 
     validateAccessToken(token: string) {
         try {
-            return jwt.verify(token, process.env.JWT_ACCESS_SECRET!);
+            return jwt.verify(
+                token,
+                process.env.JWT_ACCESS_SECRET!,
+            ) as TUserData;
         } catch (err) {
             return null;
         }

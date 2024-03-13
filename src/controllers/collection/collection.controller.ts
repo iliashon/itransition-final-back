@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+import CollectionService from "../../services/collection/collection.service";
 
 class CollectionController {
     async getAll(req: Request, res: Response, next: NextFunction) {
@@ -19,7 +20,11 @@ class CollectionController {
 
     async create(req: Request, res: Response, next: NextFunction) {
         try {
-            res.send("Create collection");
+            const newCollection = await CollectionService.create(
+                req.body,
+                Number(req.headers["userId"]),
+            );
+            res.json(newCollection);
         } catch (err) {
             next(err);
         }
