@@ -1,10 +1,12 @@
 import { Request, Response, NextFunction } from "express";
 import CollectionService from "../../services/collection/collection.service";
+import ApiError from "../../exceptions/ApiError";
 
 class CollectionController {
     async getAll(req: Request, res: Response, next: NextFunction) {
         try {
-            res.send("Get all collection");
+            const allCollections = await CollectionService.getAll();
+            res.json(allCollections);
         } catch (err) {
             next(err);
         }
@@ -12,7 +14,10 @@ class CollectionController {
 
     async getById(req: Request, res: Response, next: NextFunction) {
         try {
-            res.send(`Get by id collection ID: ${req.params.id}`);
+            const collection = await CollectionService.getById(
+                Number(req.params.id),
+            );
+            res.json(collection);
         } catch (err) {
             next(err);
         }
@@ -32,7 +37,11 @@ class CollectionController {
 
     async update(req: Request, res: Response, next: NextFunction) {
         try {
-            res.send(`Update collection ID: ${req.params.id}`);
+            const updateCollection = await CollectionService.update(
+                req.body,
+                Number(req.params.id),
+            );
+            res.json(updateCollection);
         } catch (err) {
             next(err);
         }
@@ -40,7 +49,30 @@ class CollectionController {
 
     async delete(req: Request, res: Response, next: NextFunction) {
         try {
-            res.send(`Delete collection ID: ${req.params.id}`);
+            const deleteCollection = await CollectionService.delete(
+                Number(req.params.id),
+            );
+            res.json(deleteCollection.id);
+        } catch (err) {
+            next(err);
+        }
+    }
+
+    async createType(req: Request, res: Response, next: NextFunction) {
+        try {
+            const newCollectionType = await CollectionService.createType(
+                req.body.name,
+            );
+            res.json(newCollectionType);
+        } catch (err) {
+            next(err);
+        }
+    }
+
+    async getAllType(req: Request, res: Response, next: NextFunction) {
+        try {
+            const allCollectionTypes = await CollectionService.getAllType();
+            res.json(allCollectionTypes);
         } catch (err) {
             next(err);
         }

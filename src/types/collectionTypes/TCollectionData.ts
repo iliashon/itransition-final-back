@@ -4,7 +4,7 @@ type TCollectionData = {
     name: string;
     description: string;
     type: string;
-    image_url: string;
+    image_url: string | null;
 };
 
 export default TCollectionData;

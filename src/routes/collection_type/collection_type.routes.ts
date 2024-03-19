@@ -6,17 +6,6 @@ const router = express.Router();
 
 router
     .route("/")
-    .get(CollectionController.getAll)
-    .post(AuthMiddleware, CollectionController.create);
-
-router
-    .route("/:id")
-    .get(CollectionController.getById)
-    .put(CollectionController.update)
-    .delete(CollectionController.delete);
-
-router
-    .route("/type")
     .get(CollectionController.getAllType)
     .post(CollectionController.createType);
 

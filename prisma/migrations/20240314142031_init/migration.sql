@@ -30,9 +30,17 @@ CREATE TABLE "collection" (
     "name" VARCHAR(256) NOT NULL,
     "description" TEXT NOT NULL,
     "type" VARCHAR(64) NOT NULL,
-    "image_url" TEXT NOT NULL,
+    "image_url" TEXT,
 
     CONSTRAINT "collection_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "collection_type" (
+    "id" SERIAL NOT NULL,
+    "name" VARCHAR(256) NOT NULL,
+
+    CONSTRAINT "collection_type_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -40,7 +48,7 @@ CREATE TABLE "item" (
     "id" SERIAL NOT NULL,
     "collection_id" INTEGER NOT NULL,
     "name" VARCHAR(256) NOT NULL,
-    "image_url" TEXT NOT NULL,
+    "image_url" TEXT,
 
     CONSTRAINT "item_pkey" PRIMARY KEY ("id")
 );
@@ -58,6 +66,12 @@ CREATE UNIQUE INDEX "token_user_id_key" ON "token"("user_id");
 CREATE UNIQUE INDEX "collection_id_key" ON "collection"("id");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "collection_type_id_key" ON "collection_type"("id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "collection_type_name_key" ON "collection_type"("name");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "item_id_key" ON "item"("id");
 
 -- AddForeignKey
@@ -65,6 +79,9 @@ ALTER TABLE "token" ADD CONSTRAINT "token_user_id_fkey" FOREIGN KEY ("user_id") 
 
 -- AddForeignKey
 ALTER TABLE "collection" ADD CONSTRAINT "collection_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "collection" ADD CONSTRAINT "collection_type_fkey" FOREIGN KEY ("type") REFERENCES "collection_type"("name") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "item" ADD CONSTRAINT "item_collection_id_fkey" FOREIGN KEY ("collection_id") REFERENCES "collection"("id") ON DELETE CASCADE ON UPDATE CASCADE;

@@ -8,7 +8,7 @@ class TokenService {
     async generateToken(data: TUserData) {
         const tokens = {
             accessToken: jwt.sign(data, process.env.JWT_ACCESS_SECRET!, {
-                expiresIn: "30min",
+                expiresIn: "5h",
             }),
             refreshToken: jwt.sign(data, process.env.JWT_REFRESH_SECRET!, {
                 expiresIn: "30d",

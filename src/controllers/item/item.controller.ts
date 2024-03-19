@@ -1,9 +1,11 @@
 import { NextFunction, Request, Response } from "express";
+import ItemService from "../../services/item/item.service";
 
 class ItemController {
     async getAll(req: Request, res: Response, next: NextFunction) {
         try {
-            res.send("Get all items");
+            const allItems = await ItemService.getAll(req.body);
+            res.json(allItems);
         } catch (err) {
             next(err);
         }
@@ -11,7 +13,8 @@ class ItemController {
 
     async getById(req: Request, res: Response, next: NextFunction) {
         try {
-            res.send(`Get by id item ID: ${req.params.id}`);
+            const item = await ItemService.getById(Number(req.params.id));
+            res.json(item);
         } catch (err) {
             next(err);
         }
@@ -19,7 +22,8 @@ class ItemController {
 
     async create(req: Request, res: Response, next: NextFunction) {
         try {
-            res.send("Create item");
+            const newItem = await ItemService.create(req.body);
+            res.json(newItem);
         } catch (err) {
             next(err);
         }

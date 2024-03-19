@@ -30,14 +30,21 @@ model token {
 }
 
 model collection {
-  id          Int    @id @unique @default(autoincrement())
-  user        user   @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  user_id     Int
-  name        String @db.VarChar(256)
-  description String @db.Text
-  type        String @db.VarChar(64)
-  image_url   String @db.Text
-  item        item[]
+  id              Int             @id @unique @default(autoincrement())
+  user            user            @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user_id         Int
+  name            String          @db.VarChar(256)
+  description     String          @db.Text
+  type            String          @db.VarChar(64)
+  collection_type collection_type @relation(fields: [type], references: [name])
+  image_url       String?
+  item            item[]
+}
+
+model collection_type {
+  id         Int          @id @unique @default(autoincrement())
+  name       String       @unique @db.VarChar(256)
+  collection collection[]
 }
 
 model item {
@@ -45,5 +52,5 @@ model item {
   collection    collection @relation(fields: [collection_id], references: [id], onDelete: Cascade)
   collection_id Int
   name          String     @db.VarChar(256)
-  image_url     String     @db.Text
+  image_url     String?
 }
