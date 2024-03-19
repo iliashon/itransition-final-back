@@ -3,6 +3,7 @@ import authRoutes from "./auth/auth.routes";
 import collectionRoutes from "./collection/collection.routes";
 import itemRoutes from "./item/item.routes";
 import collection_typeRoutes from "./collection_type/collection_type.routes";
+import commentRoutes from "./comment/comment.routes";
 
 const router = express.Router();
 
@@ -13,5 +14,7 @@ router.use("/collection", collectionRoutes);
 router.use("/collection-type", collection_typeRoutes);
 
 router.use("/item", itemRoutes);
+
+router.use("/comment", commentRoutes);
 
 export default router;

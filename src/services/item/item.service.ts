@@ -14,6 +14,15 @@ class ItemService {
         });
     }
 
+    async update(data: TCreateItemData, id: number) {
+        return db.item.update({
+            where: {
+                id,
+            },
+            data,
+        });
+    }
+
     async getById(id: number) {
         return db.item.findFirst({
             where: {

@@ -31,7 +31,11 @@ class ItemController {
 
     async update(req: Request, res: Response, next: NextFunction) {
         try {
-            res.send(`Update item ID: ${req.params.id}`);
+            const updateItem = await ItemService.update(
+                req.body,
+                Number(req.params.id),
+            );
+            res.json(updateItem);
         } catch (err) {
             next(err);
         }

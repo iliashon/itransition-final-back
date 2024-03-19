@@ -18,26 +18,27 @@ model user {
   blocked    Boolean      @default(false)
   created_at DateTime     @default(now())
   updated_at DateTime     @updatedAt
-  token      token?
   collection collection[]
+  comment    comment[]
+  token      token?
 }
 
 model token {
   id            Int    @id @unique @default(autoincrement())
-  user          user   @relation(fields: [user_id], references: [id], onDelete: Cascade)
   user_id       Int    @unique
   refresh_token String
+  user          user   @relation(fields: [user_id], references: [id], onDelete: Cascade)
 }
 
 model collection {
   id              Int             @id @unique @default(autoincrement())
-  user            user            @relation(fields: [user_id], references: [id], onDelete: Cascade)
   user_id         Int
   name            String          @db.VarChar(256)
-  description     String          @db.Text
+  description     String
   type            String          @db.VarChar(64)
-  collection_type collection_type @relation(fields: [type], references: [name])
   image_url       String?
+  collection_type collection_type @relation(fields: [type], references: [name])
+  user            user            @relation(fields: [user_id], references: [id], onDelete: Cascade)
   item            item[]
 }
 
@@ -49,8 +50,19 @@ model collection_type {
 
 model item {
   id            Int        @id @unique @default(autoincrement())
-  collection    collection @relation(fields: [collection_id], references: [id], onDelete: Cascade)
   collection_id Int
   name          String     @db.VarChar(256)
   image_url     String?
+  comment       comment[]
+  collection    collection @relation(fields: [collection_id], references: [id], onDelete: Cascade)
+}
+
+model comment {
+  id         Int      @id @unique @default(autoincrement())
+  text       String
+  user_id    Int
+  item_id    Int
+  created_at DateTime @default(now())
+  item       item     @relation(fields: [item_id], references: [id], onDelete: Cascade)
+  user       user     @relation(fields: [user_id], references: [id], onDelete: Cascade)
 }

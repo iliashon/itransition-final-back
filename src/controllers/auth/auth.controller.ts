@@ -15,6 +15,8 @@ class AuthController {
             res.cookie("refreshToken", user.refreshToken, {
                 maxAge: MAX_AGE_COOKIE,
                 httpOnly: true,
+                sameSite: "none",
+                secure: true,
             });
             res.json(user);
         } catch (err) {
@@ -41,6 +43,8 @@ class AuthController {
             res.cookie("refreshToken", newUser.refreshToken, {
                 maxAge: MAX_AGE_COOKIE,
                 httpOnly: true,
+                sameSite: "none",
+                secure: true,
             });
             res.json(newUser);
         } catch (err) {
@@ -55,6 +59,8 @@ class AuthController {
             res.cookie("refreshToken", user.refreshToken, {
                 maxAge: MAX_AGE_COOKIE,
                 httpOnly: true,
+                sameSite: "none",
+                secure: true,
             });
             res.json(user);
         } catch (err) {
