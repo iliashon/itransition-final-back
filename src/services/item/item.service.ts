@@ -24,17 +24,46 @@ class ItemService {
     }
 
     async getById(id: number) {
-        return db.item.findFirst({
+        const item = await db.item.findFirst({
             where: {
                 id,
             },
         });
+
+        const dbTags = await db.item_tag.findMany({
+            where: {
+                item_id: id,
+            },
+            select: {
+                tag: true,
+            },
+        });
+
+        const tags = dbTags.map((item) => {
+            return {
+                id: item.tag.id.toString(),
+                text: item.tag.text,
+            };
+        });
+
+        return {
+            ...item,
+            tags,
+        };
     }
 
     async getAll(objectSearch: TObjectSearchItem): Promise<TItemData[]> {
         return db.item.findMany({
             where: {
                 ...objectSearch,
+            },
+        });
+    }
+
+    async delete(id: number) {
+        return db.item.delete({
+            where: {
+                id,
             },
         });
     }

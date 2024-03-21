@@ -57,6 +57,7 @@ model item {
   comment       comment[]
   collection    collection @relation(fields: [collection_id], references: [id], onDelete: Cascade)
   like          like[]
+  item_tag      item_tag[]
 }
 
 model comment {
@@ -75,4 +76,18 @@ model like {
   item_id Int
   item    item @relation(fields: [item_id], references: [id], onDelete: Cascade)
   user    user @relation(fields: [user_id], references: [id], onDelete: Cascade)
+}
+
+model tag {
+  id       Int        @id @unique @default(autoincrement())
+  text     String
+  item_tag item_tag[]
+}
+
+model item_tag {
+  id      Int  @unique @default(autoincrement())
+  item_id Int
+  tag_id  Int
+  tag     tag  @relation(fields: [tag_id], references: [id])
+  item    item @relation(fields: [item_id], references: [id], onDelete: Cascade)
 }
