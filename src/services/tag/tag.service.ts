@@ -9,6 +9,28 @@ class TagService {
         return db.tag.findMany();
     }
 
+    async getTagsForCloud() {
+        const tags = await db.tag.findMany({
+            select: {
+                text: true,
+                _count: {
+                    select: {
+                        item_tag: true,
+                    },
+                },
+            },
+            orderBy: {
+                item_tag: {
+                    _count: "desc",
+                },
+            },
+            take: 15,
+        });
+        return tags.map((tag) => {
+            return { value: tag.text, count: tag._count.item_tag };
+        });
+    }
+
     async create(tags: TCreateTagData[], item_id: number) {
         const TagIds: number[] = [];
 

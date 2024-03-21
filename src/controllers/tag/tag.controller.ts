@@ -10,6 +10,15 @@ class TagController {
             next(err);
         }
     }
+
+    async getTagsForCloud(req: Request, res: Response, next: NextFunction) {
+        try {
+            const tags = await TagService.getTagsForCloud();
+            res.json(tags);
+        } catch (err) {
+            next(err);
+        }
+    }
 }
 
 export default new TagController();
