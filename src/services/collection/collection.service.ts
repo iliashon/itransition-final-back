@@ -1,7 +1,7 @@
-import TCreateCollectionData from "../../types/collectionTypes/TCreateCollectionData";
+import TCreateCollectionData from "../../types/collection/TCreateCollectionData";
 import { PrismaClient } from "@prisma/client";
-import TCollectionData from "../../types/collectionTypes/TCollectionData";
-import TCollectionType from "../../types/collectionTypes/TCollectionType";
+import TCollectionData from "../../types/collection/TCollectionData";
+import TCollectionType from "../../types/collection/TCollectionType";
 
 const db = new PrismaClient();
 

@@ -1,4 +1,4 @@
-import TCreateCommentData from "../../types/commentTypes/TCreateCommentData";
+import TCreateCommentData from "../../types/comment/TCreateCommentData";
 import { PrismaClient } from "@prisma/client";
 
 const db = new PrismaClient();

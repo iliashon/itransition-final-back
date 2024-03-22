@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import ItemService from "../../services/item/item.service";
-import TCreateItemData from "../../types/itemTypes/TCreateItemData";
+import TCreateItemData from "../../types/item/TCreateItemData";
 import TagService from "../../services/tag/tag.service";
-import TArgCreateItem from "../../types/itemTypes/TArgCreateItem";
+import TArgCreateItem from "../../types/item/TArgCreateItem";
 
 class ItemController {
     async getAll(req: Request, res: Response, next: NextFunction) {

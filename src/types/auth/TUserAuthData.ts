@@ -1,4 +1,4 @@
-import type TUserData from "./TUserData";
+import type TUserData from "../user/TUserData";
 
 type TUserAuthData = {
     accessToken: string;

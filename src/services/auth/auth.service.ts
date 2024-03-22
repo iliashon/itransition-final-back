@@ -1,11 +1,11 @@
 import { PrismaClient } from "@prisma/client";
-import type TLoginData from "../../types/authTypes/TLoginData";
-import TRegisterData from "../../types/authTypes/TRegisterData";
+import type TLoginData from "../../types/auth/TLoginData";
+import TRegisterData from "../../types/auth/TRegisterData";
 import ApiError from "../../exceptions/ApiError";
 import bcrypt from "bcrypt";
-import TUserData from "../../types/authTypes/TUserData";
+import TUserData from "../../types/user/TUserData";
 import TokenService from "./token.service";
-import TUserAuthData from "../../types/authTypes/TUserAuthData";
+import TUserAuthData from "../../types/auth/TUserAuthData";
 
 const db = new PrismaClient();
 
@@ -31,6 +31,10 @@ class AuthService {
         });
         if (!user) {
             throw ApiError.BadRequest("There is no user with this email");
+        }
+
+        if (user.blocked) {
+            throw ApiError.BlockedError();
         }
 
         const isPasswordEqual = await bcrypt.compare(

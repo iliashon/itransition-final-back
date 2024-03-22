@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
-import TCreateItemData from "../../types/itemTypes/TCreateItemData";
-import TObjectSearchItem from "../../types/itemTypes/TObjectSearchItem";
-import TItemData from "../../types/itemTypes/TItemData";
+import TCreateItemData from "../../types/item/TCreateItemData";
+import TObjectSearchItem from "../../types/item/TObjectSearchItem";
+import TItemData from "../../types/item/TItemData";
 
 const db = new PrismaClient();
 

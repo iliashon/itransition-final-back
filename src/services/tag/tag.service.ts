@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
-import TTagData from "../../types/tagTypes/TTagData";
-import TCreateTagData from "../../types/tagTypes/TCreateTagData";
+import TTagData from "../../types/tag/TTagData";
+import TCreateTagData from "../../types/tag/TCreateTagData";
 
 const db = new PrismaClient();
 

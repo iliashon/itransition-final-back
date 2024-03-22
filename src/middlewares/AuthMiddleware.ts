@@ -21,6 +21,9 @@ export default async function AuthMiddleware(
         if (!userFromDb) {
             return next(ApiError.UnauthorizedError());
         }
+        if (userFromDb.blocked) {
+            return next(ApiError.BlockedError());
+        }
         req.headers["userId"] = userFromDb.id.toString();
         next();
     } catch (err) {

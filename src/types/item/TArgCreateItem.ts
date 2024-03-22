@@ -1,4 +1,4 @@
-import TCreateTagData from "../tagTypes/TCreateTagData";
+import TCreateTagData from "../tag/TCreateTagData";
 import TCreateItemData from "./TCreateItemData";
 
 type TArgCreateItem = {

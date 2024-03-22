@@ -6,6 +6,7 @@ import collection_typeRoutes from "./collection_type/collection_type.routes";
 import commentRoutes from "./comment/comment.routes";
 import likeRoutes from "./like/like.routes";
 import tagRoutes from "./tag/tag.routes";
+import userRoutes from "./user/user.routes";
 
 const router = express.Router();
 
@@ -22,5 +23,7 @@ router.use("/comment", commentRoutes);
 router.use("/like", likeRoutes);
 
 router.use("/tag", tagRoutes);
+
+router.use("/user", userRoutes);
 
 export default router;
