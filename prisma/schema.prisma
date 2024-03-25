@@ -42,6 +42,7 @@ model collection {
   collection_type collection_type @relation(fields: [type], references: [name])
   user            user            @relation(fields: [user_id], references: [id], onDelete: Cascade)
   item            item[]
+  attribute       attribute[]
 }
 
 model collection_type {
@@ -51,15 +52,20 @@ model collection_type {
 }
 
 model item {
-  id            Int        @id @unique @default(autoincrement())
-  collection_id Int
-  name          String     @db.VarChar(256)
-  image_url     String?
-  created_at    DateTime   @default(now())
-  comment       comment[]
-  collection    collection @relation(fields: [collection_id], references: [id], onDelete: Cascade)
-  like          like[]
-  item_tag      item_tag[]
+  id                Int                 @id @unique @default(autoincrement())
+  collection_id     Int
+  name              String              @db.VarChar(256)
+  image_url         String?
+  created_at        DateTime            @default(now())
+  comment           comment[]
+  collection        collection          @relation(fields: [collection_id], references: [id], onDelete: Cascade)
+  like              like[]
+  item_tag          item_tag[]
+  atr_value_date    atr_value_date[]
+  atr_value_int     atr_value_int[]
+  atr_value_varchar atr_value_varchar[]
+  atr_value_text    atr_value_text[]
+  atr_value_boolean atr_value_boolean[]
 }
 
 model comment {
@@ -87,9 +93,69 @@ model tag {
 }
 
 model item_tag {
-  id      Int  @unique @default(autoincrement())
+  id      Int  @id @unique @default(autoincrement())
   item_id Int
   tag_id  Int
   tag     tag  @relation(fields: [tag_id], references: [id])
   item    item @relation(fields: [item_id], references: [id], onDelete: Cascade)
+}
+
+model attribute {
+  id                Int                 @id @unique @default(autoincrement())
+  collection_id     Int
+  name              String
+  type              String
+  require           Boolean             @default(false)
+  is_show_on_grid   Boolean             @default(false)
+  collection        collection          @relation(fields: [collection_id], references: [id], onDelete: Cascade)
+  atr_value_date    atr_value_date[]
+  atr_value_int     atr_value_int[]
+  atr_value_varchar atr_value_varchar[]
+  atr_value_text    atr_value_text[]
+  atr_value_boolean atr_value_boolean[]
+}
+
+model atr_value_date {
+  id        Int       @id @unique @default(autoincrement())
+  item_id   Int
+  atr_id    Int
+  value     DateTime
+  attribute attribute @relation(fields: [atr_id], references: [id], onDelete: Cascade)
+  item      item      @relation(fields: [item_id], references: [id], onDelete: Cascade)
+}
+
+model atr_value_int {
+  id        Int       @id @unique @default(autoincrement())
+  item_id   Int
+  atr_id    Int
+  value     Int
+  attribute attribute @relation(fields: [atr_id], references: [id], onDelete: Cascade)
+  item      item      @relation(fields: [item_id], references: [id], onDelete: Cascade)
+}
+
+model atr_value_varchar {
+  id        Int       @id @unique @default(autoincrement())
+  item_id   Int
+  atr_id    Int
+  value     String    @db.VarChar(256)
+  attribute attribute @relation(fields: [atr_id], references: [id], onDelete: Cascade)
+  item      item      @relation(fields: [item_id], references: [id], onDelete: Cascade)
+}
+
+model atr_value_text {
+  id        Int       @id @unique @default(autoincrement())
+  item_id   Int
+  atr_id    Int
+  value     String    @db.Text
+  attribute attribute @relation(fields: [atr_id], references: [id], onDelete: Cascade)
+  item      item      @relation(fields: [item_id], references: [id], onDelete: Cascade)
+}
+
+model atr_value_boolean {
+  id        Int       @id @unique @default(autoincrement())
+  item_id   Int
+  atr_id    Int
+  value     Boolean   @db.Boolean
+  attribute attribute @relation(fields: [atr_id], references: [id], onDelete: Cascade)
+  item      item      @relation(fields: [item_id], references: [id], onDelete: Cascade)
 }

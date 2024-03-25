@@ -2,6 +2,7 @@ import TCreateCollectionData from "../../types/collection/TCreateCollectionData"
 import { PrismaClient } from "@prisma/client";
 import TCollectionData from "../../types/collection/TCollectionData";
 import TCollectionType from "../../types/collection/TCollectionType";
+import TAttributeData from "../../types/collection/TAttributeData";
 
 const db = new PrismaClient();
 
@@ -32,12 +33,27 @@ class CollectionService {
         data: TCreateCollectionData,
         userId: number,
     ): Promise<TCollectionData> {
-        return db.collection.create({
+        const { name, type, image_url, attributes, description } = data;
+
+        const newCollection: TCollectionData = await db.collection.create({
             data: {
-                ...data,
+                name,
+                type,
+                image_url,
+                description,
                 user_id: userId,
             },
         });
+
+        await db.attribute.createMany({
+            data: attributes.map((atr) => {
+                {
+                    return { ...atr, collection_id: newCollection.id };
+                }
+            }),
+        });
+
+        return newCollection;
     }
 
     async delete(id: number): Promise<TCollectionData> {
