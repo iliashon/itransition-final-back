@@ -38,6 +38,7 @@ model collection {
   description     String
   type            String          @db.VarChar(64)
   image_url       String?
+  created_at      DateTime        @default(now())
   collection_type collection_type @relation(fields: [type], references: [name])
   user            user            @relation(fields: [user_id], references: [id], onDelete: Cascade)
   item            item[]
@@ -54,6 +55,7 @@ model item {
   collection_id Int
   name          String     @db.VarChar(256)
   image_url     String?
+  created_at    DateTime   @default(now())
   comment       comment[]
   collection    collection @relation(fields: [collection_id], references: [id], onDelete: Cascade)
   like          like[]

@@ -5,6 +5,28 @@ import TCollectionType from "../../types/collection/TCollectionType";
 
 const db = new PrismaClient();
 
+const SELECT_COLLECTION = {
+    id: true,
+    user: {
+        select: {
+            first_name: true,
+            last_name: true,
+            email: true,
+        },
+    },
+    user_id: true,
+    name: true,
+    description: true,
+    type: true,
+    image_url: true,
+    created_at: true,
+    _count: {
+        select: {
+            item: true,
+        },
+    },
+};
+
 class CollectionService {
     async create(
         data: TCreateCollectionData,
@@ -31,11 +53,14 @@ class CollectionService {
             where: {
                 id,
             },
+            select: SELECT_COLLECTION,
         });
     }
 
     async getAll(): Promise<TCollectionData[]> {
-        return db.collection.findMany();
+        return db.collection.findMany({
+            select: SELECT_COLLECTION,
+        });
     }
 
     async getAllType(): Promise<TCollectionType[]> {
@@ -59,6 +84,30 @@ class CollectionService {
                 id: id,
             },
             data,
+        });
+    }
+
+    async getTop() {
+        return db.collection.findMany({
+            select: SELECT_COLLECTION,
+            orderBy: {
+                item: {
+                    _count: "desc",
+                },
+            },
+            take: 5,
+        });
+    }
+
+    async getUserCollections(user_id: number) {
+        return db.collection.findMany({
+            where: {
+                user_id,
+            },
+            select: {
+                ...SELECT_COLLECTION,
+                user: false,
+            },
         });
     }
 }

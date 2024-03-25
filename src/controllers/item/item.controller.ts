@@ -62,8 +62,17 @@ class ItemController {
 
     async delete(req: Request, res: Response, next: NextFunction) {
         try {
-            const deleteItem = ItemService.delete(Number(req.params.id));
+            const deleteItem = await ItemService.delete(Number(req.params.id));
             res.send(deleteItem);
+        } catch (err) {
+            next(err);
+        }
+    }
+
+    async getLastItems(req: Request, res: Response, next: NextFunction) {
+        try {
+            const items = await ItemService.getLastItems();
+            res.send(items);
         } catch (err) {
             next(err);
         }

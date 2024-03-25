@@ -9,6 +9,11 @@ router
     .get(CollectionController.getAll)
     .post(AuthMiddleware, CollectionController.create);
 
+router.route("/top").get(CollectionController.getTop);
+router
+    .route("/user")
+    .get(AuthMiddleware, CollectionController.getUserCollection);
+
 router
     .route("/:id")
     .get(CollectionController.getById)

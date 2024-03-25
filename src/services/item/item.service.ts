@@ -57,6 +57,18 @@ class ItemService {
             where: {
                 ...objectSearch,
             },
+            select: {
+                id: true,
+                name: true,
+                image_url: true,
+                collection_id: true,
+                created_at: true,
+                _count: {
+                    select: {
+                        like: true,
+                    },
+                },
+            },
         });
     }
 
@@ -65,6 +77,15 @@ class ItemService {
             where: {
                 id,
             },
+        });
+    }
+
+    async getLastItems() {
+        return db.item.findMany({
+            orderBy: {
+                created_at: "desc",
+            },
+            take: 5,
         });
     }
 }

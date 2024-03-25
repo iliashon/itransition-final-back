@@ -5,6 +5,8 @@ const router = express.Router();
 
 router.route("/").get(ItemController.getAll).post(ItemController.create);
 
+router.route("/last").get(ItemController.getLastItems);
+
 router
     .route("/:id")
     .get(ItemController.getById)

@@ -77,6 +77,26 @@ class CollectionController {
             next(err);
         }
     }
+
+    async getTop(req: Request, res: Response, next: NextFunction) {
+        try {
+            const topCollections = await CollectionService.getTop();
+            res.json(topCollections);
+        } catch (err) {
+            next(err);
+        }
+    }
+
+    async getUserCollection(req: Request, res: Response, next: NextFunction) {
+        try {
+            const collections = await CollectionService.getUserCollections(
+                Number(req.headers["userId"]),
+            );
+            res.json(collections);
+        } catch (err) {
+            next(err);
+        }
+    }
 }
 
 export default new CollectionController();

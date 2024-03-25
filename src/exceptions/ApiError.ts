@@ -8,7 +8,7 @@ export default class ApiError extends Error {
     }
 
     static UnauthorizedError() {
-        return new ApiError(401, i18next.t("auth.notAuth"));
+        return new ApiError(401, "User is not authorized");
     }
 
     static BadRequest(message: string) {
