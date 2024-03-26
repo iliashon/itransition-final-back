@@ -69,7 +69,10 @@ class CollectionService {
             where: {
                 id,
             },
-            select: SELECT_COLLECTION,
+            select: {
+                ...SELECT_COLLECTION,
+                attribute: true,
+            },
         });
     }
 

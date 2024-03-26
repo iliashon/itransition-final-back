@@ -10,6 +10,7 @@ router
     .post(AuthMiddleware, CollectionController.create);
 
 router.route("/top").get(CollectionController.getTop);
+
 router
     .route("/user")
     .get(AuthMiddleware, CollectionController.getUserCollection);
