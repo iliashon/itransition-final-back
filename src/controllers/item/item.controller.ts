@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 import ItemService from "../../services/item/item.service";
-import TCreateItemData from "../../types/item/TCreateItemData";
 import TagService from "../../services/tag/tag.service";
 import TArgCreateItem from "../../types/item/TArgCreateItem";
 
@@ -45,11 +44,10 @@ class ItemController {
 
     async update(req: Request, res: Response, next: NextFunction) {
         try {
-            const { collection_id, tags, name, image_url }: TArgCreateItem =
-                req.body;
+            const { tags }: TArgCreateItem = req.body;
 
             const updateItem = await ItemService.update(
-                { collection_id, name, image_url },
+                req.body,
                 Number(req.params.id),
             );
 

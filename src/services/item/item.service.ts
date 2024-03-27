@@ -115,12 +115,82 @@ class ItemService {
         return newItem;
     }
 
-    async update(data: TCreateItemData, id: number) {
+    async update(data: TArgCreateItem, id: number) {
+        const { name, image_url, collection_id, attributes } = data;
+
+        for (const atr of attributes) {
+            switch (atr.type) {
+                case "text":
+                    await db.atr_value_text.updateMany({
+                        where: {
+                            atr_id: atr.atr_id,
+                        },
+                        data: {
+                            value: atr.value as string,
+                            atr_id: atr.atr_id,
+                            item_id: id,
+                        },
+                    });
+                    break;
+                case "boolean":
+                    await db.atr_value_boolean.updateMany({
+                        where: {
+                            atr_id: atr.atr_id,
+                        },
+                        data: {
+                            value: atr.value as boolean,
+                            atr_id: atr.atr_id,
+                            item_id: id,
+                        },
+                    });
+                    break;
+                case "integer":
+                    await db.atr_value_int.updateMany({
+                        where: {
+                            atr_id: atr.atr_id,
+                        },
+                        data: {
+                            value: Number(atr.value),
+                            atr_id: atr.atr_id,
+                            item_id: id,
+                        },
+                    });
+                    break;
+                case "date":
+                    await db.atr_value_date.updateMany({
+                        where: {
+                            atr_id: atr.atr_id,
+                        },
+                        data: {
+                            value: new Date(atr.value as string),
+                            atr_id: atr.atr_id,
+                            item_id: id,
+                        },
+                    });
+                    break;
+                case "varchar":
+                    await db.atr_value_varchar.updateMany({
+                        where: {
+                            atr_id: atr.atr_id,
+                        },
+                        data: {
+                            value: atr.value as string,
+                            atr_id: atr.atr_id,
+                            item_id: id,
+                        },
+                    });
+                    break;
+            }
+        }
+
         return db.item.update({
             where: {
                 id,
             },
-            data,
+            data: {
+                name,
+                image_url,
+            },
         });
     }
 
