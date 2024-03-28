@@ -65,6 +65,9 @@ class ItemService {
         for (const atr of attributes) {
             switch (atr.type) {
                 case "text":
+                    if (!atr.value) {
+                        break;
+                    }
                     await db.atr_value_text.create({
                         data: {
                             value: atr.value as string,
@@ -74,6 +77,9 @@ class ItemService {
                     });
                     break;
                 case "boolean":
+                    if (atr.value === undefined) {
+                        break;
+                    }
                     await db.atr_value_boolean.create({
                         data: {
                             value: atr.value as boolean,
@@ -83,6 +89,9 @@ class ItemService {
                     });
                     break;
                 case "integer":
+                    if (!atr.value) {
+                        break;
+                    }
                     await db.atr_value_int.create({
                         data: {
                             value: Number(atr.value),
@@ -92,6 +101,9 @@ class ItemService {
                     });
                     break;
                 case "date":
+                    if (!atr.value) {
+                        break;
+                    }
                     await db.atr_value_date.create({
                         data: {
                             value: new Date(atr.value as string),
@@ -101,6 +113,9 @@ class ItemService {
                     });
                     break;
                 case "varchar":
+                    if (!atr.value) {
+                        break;
+                    }
                     await db.atr_value_varchar.create({
                         data: {
                             value: atr.value as string,
@@ -121,6 +136,9 @@ class ItemService {
         for (const atr of attributes) {
             switch (atr.type) {
                 case "text":
+                    if (atr.value === undefined) {
+                        break;
+                    }
                     await db.atr_value_text.updateMany({
                         where: {
                             atr_id: atr.atr_id,
@@ -133,6 +151,9 @@ class ItemService {
                     });
                     break;
                 case "boolean":
+                    if (atr.value === undefined) {
+                        break;
+                    }
                     await db.atr_value_boolean.updateMany({
                         where: {
                             atr_id: atr.atr_id,
@@ -145,6 +166,9 @@ class ItemService {
                     });
                     break;
                 case "integer":
+                    if (atr.value === undefined) {
+                        break;
+                    }
                     await db.atr_value_int.updateMany({
                         where: {
                             atr_id: atr.atr_id,
@@ -157,6 +181,9 @@ class ItemService {
                     });
                     break;
                 case "date":
+                    if (atr.value === undefined) {
+                        break;
+                    }
                     await db.atr_value_date.updateMany({
                         where: {
                             atr_id: atr.atr_id,
@@ -169,6 +196,9 @@ class ItemService {
                     });
                     break;
                 case "varchar":
+                    if (atr.value === undefined) {
+                        break;
+                    }
                     await db.atr_value_varchar.updateMany({
                         where: {
                             atr_id: atr.atr_id,
@@ -224,7 +254,7 @@ class ItemService {
                 attributes.push({
                     id: atr.id,
                     name: atr.attribute.name,
-                    value: atr.value,
+                    value: atr.value || "",
                     atr_id: atr.atr_id,
                     type: atr.attribute.type,
                 });
@@ -269,6 +299,11 @@ class ItemService {
                 image_url: true,
                 collection_id: true,
                 created_at: true,
+                item_tag: {
+                    select: {
+                        tag: true,
+                    },
+                },
                 _count: {
                     select: {
                         like: true,

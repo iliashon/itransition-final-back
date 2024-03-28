@@ -24,13 +24,7 @@ class ItemController {
 
     async create(req: Request, res: Response, next: NextFunction) {
         try {
-            const {
-                collection_id,
-                tags,
-                name,
-                image_url,
-                attributes,
-            }: TArgCreateItem = req.body;
+            const { tags }: TArgCreateItem = req.body;
 
             const newItem = await ItemService.create(req.body);
 

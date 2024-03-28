@@ -120,7 +120,7 @@ model atr_value_date {
   id        Int       @id @unique @default(autoincrement())
   item_id   Int
   atr_id    Int
-  value     DateTime
+  value     DateTime?
   attribute attribute @relation(fields: [atr_id], references: [id], onDelete: Cascade)
   item      item      @relation(fields: [item_id], references: [id], onDelete: Cascade)
 }
